@@ -1,0 +1,14 @@
+1.Insert at beginning of the list
+- Only one next pointer needs to be modified.
+*head is made to point to the new node.
+*new node points to the previously first node.
+
+2.Insert at end of the list
+-Two next pointers needs to be modified.
+*Last node points to the new node.
+*new node points to null.
+
+3.When a node is added in the middle(at any position)
+-Two next pointers needs to be modified.
+*previous node now points to the new node.
+*new node points to the next node.
