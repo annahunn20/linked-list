@@ -1,0 +1,217 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct node {
+    int data;
+    struct node *next;
+} node1;
+node1* head = NULL;
+node1* tail = NULL;
+void create() {
+    node1* temp = (node1*)malloc(sizeof(node1));
+    printf("Enter the data: ");
+    scanf("%d", &temp->data);
+    temp->next = NULL;
+    if (head == NULL) {
+        head = temp;
+        tail = temp;
+    } else {
+        tail->next = temp;
+        tail = temp;
+    }
+}
+void print() {
+    node1* ptr;
+    if (head == NULL) {
+        printf("List is empty\n");
+    } else {
+        for (ptr = head; ptr != NULL; ptr = ptr->next)
+            printf("%d\t", ptr->data);
+        printf("\n");
+    }
+}
+void I_beg() {
+    node1* temp = (node1*)malloc(sizeof(node1));
+    printf("Enter the data: ");
+    scanf("%d", &temp->data);
+    temp->next = head;
+    head = temp;
+}
+void I_mid() {
+    node1* temp;
+    node1* cur = head;
+    int pos, i = 1;
+    temp = (node1*)malloc(sizeof(node1));
+    printf("Enter the data: ");
+    scanf("%d", &temp->data);
+    printf("Enter the position: ");
+    scanf("%d", &pos);
+    while (pos != i + 1) {
+        cur = cur->next;
+        i++;
+    }
+    temp->next = cur->next;
+    cur->next = temp;
+}
+void I_end() {
+    node1* temp;
+    temp = (node1*)malloc(sizeof(node1));
+    printf("Enter the data: ");
+    scanf("%d", &temp->data);
+    tail->next = temp;
+    tail = temp;
+    tail->next = NULL;
+}
+void insert() {
+    int ch;
+    printf("1. Insertion in the beginning\n");
+    printf("2. Insertion in the middle\n");
+    printf("3. Insertion in the end\n");
+    printf("Enter your choice: ");
+    scanf("%d", &ch);
+    switch (ch) {
+        case 1: I_beg();
+            break;
+        case 2: I_mid();
+            break;
+        case 3: I_end();
+            break;
+        default: printf("Invalid choice\n");
+    }
+}
+void d_beg() {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    node1* ptr = head;
+    head = head->next;
+    printf("Element deleted is %d\n", ptr->data);
+    free(ptr);
+}
+void d_mid() {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    node1* temp;
+    node1* cur = head;
+    int i = 1, pos;
+    printf("Enter the position of the element to be deleted: ");
+    scanf("%d", &pos);
+    while (pos != i + 1) {
+        cur = cur->next;
+        i++;
+    }
+    temp = cur->next;
+    cur->next = temp->next;
+    printf("Element deleted is %d\n", temp->data);
+    free(temp);
+}
+void d_end() {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    node1* temp;
+    node1* ptr = head;
+    while (ptr->next->next != NULL) {
+        ptr = ptr->next;
+    }
+    temp = ptr->next;
+    ptr->next = NULL;
+    tail = ptr;
+    printf("Element deleted is %d\n", temp->data);
+    free(temp);
+}
+void delete() {
+    int ch;
+    printf("1. Deletion in the beginning\n");
+    printf("2. Deletion in the middle\n");
+    printf("3. Deletion in the end\n");
+    printf("Enter your choice: ");
+    scanf("%d", &ch);
+    switch (ch) {
+        case 1: d_beg();
+            break;
+        case 2: d_mid();
+            break;
+        case 3: d_end();
+            break;
+        default: printf("Invalid choice\n");
+    }
+}
+void search() {
+    node1* ptr = head;
+    int item, flag = 0;
+    printf("Enter the element to be searched: ");
+    scanf("%d", &item);
+    while (ptr != NULL) {
+        if (ptr->data == item) {
+            flag = 1;
+            break;
+        }
+        ptr = ptr->next;
+    }
+    if (flag == 1) {
+        printf("Element found\n");
+    } else {
+        printf("Not found\n");
+    }
+}
+void detectloop() {
+    node1* slow_p = head, *fast_p = head;
+    int f = 0;
+    while (slow_p != NULL && fast_p != NULL && fast_p->next != NULL) {
+        slow_p = slow_p->next;
+        fast_p = fast_p->next->next;
+        if (slow_p == fast_p) {
+            f = 1;
+            break;
+        }
+    }
+    if (f == 1) {
+        printf("Loop detected\n");
+    } else {
+        printf("No loop\n");
+    }
+}
+void start_point_loop() {
+    node1* slow_p = head, *fast_p = head;
+    while (slow_p != fast_p) {
+        slow_p = slow_p->next;
+        fast_p = fast_p->next;
+    }
+    printf("Node at which loop starts = %d\n", slow_p->data);
+}
+int main() {
+    int ch;
+    while (1) {
+        printf("Enter your choice\n");
+        printf("1. Create\n");
+        printf("2. Print\n");
+        printf("3. Insert\n");
+        printf("4. Delete\n");
+        printf("5. Search\n");
+        printf("6. Detect loop\n");
+        printf("7. Exit\n");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1: create();
+                break;
+            case 2: print();
+                break;
+            case 3: insert();
+                break;
+            case 4: delete();
+                break;
+            case 5: search();
+                break;
+            case 6: detectloop();
+                break;
+            case 7: exit(0);
+                break;
+            default: printf("Invalid choice\n");
+        }
+    }
+    return 0;
+}
