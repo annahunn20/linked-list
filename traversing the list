@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* head = NULL; // Assuming head is defined globally
+void traverseList() {
+    int count = 1;
+    struct Node* p;
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    p = head;
+    while (p != NULL) {
+        printf("Node %d: %d\n", count, p->data);
+        count++;
+        p = p->next;
+    }
+    printf("\n");
+}
+void insertAtBeginning(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    newNode->data = data;
+    newNode->next = head;
+    head = newNode;
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    insertAtBeginning(3);
+    insertAtBeginning(2);
+    insertAtBeginning(1);
+    printf("List nodes:\n");
+traverseList();  
+return 0;
+}
