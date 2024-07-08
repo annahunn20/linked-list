@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* head = NULL; // Assuming head is defined globally
+void insertAtBeginning() {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    printf("Enter the new data: ");
+    scanf("%d", &newNode->data);
+    newNode->next = head; // Link new node to the current head
+    head = newNode; // Make the new node the new head
+    
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    // Example usage of insertAtBeginning
+    insertAtBeginning();
+    insertAtBeginning();
+    insertAtBeginning();
+    printf("List after insertions:\n");
+    printList();
+    return 0;
+}
