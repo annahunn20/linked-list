@@ -1,0 +1,5 @@
+struct Node
+{
+    int data; // data
+    struct Node* next; // pointer to next node
+};
