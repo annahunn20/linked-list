@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* head = NULL; // Assuming head is defined globally
+void deleteAtEnd() {
+    struct Node* temp = head;
+    struct Node* prev = NULL;
+    if (temp == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    // If the list contains only one node
+    if (temp->next == NULL) {
+        printf("List contains only one node, its value=%d\n", temp->data);
+        head = NULL;
+        free(temp);
+        return;
+    }
+    // Traverse to the last node
+    while (temp->next != NULL) {
+        prev = temp;
+        temp = temp->next;
+    }
+    // Now temp points to the last node
+    printf("Value of the deleted node=%d\n", temp->data);
+    // Update the previous node's next pointer to NULL
+    prev->next = NULL;
+    // Free the memory of the last node
+    free(temp);
+}
+void insertAtEnd(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    struct Node* last = head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = newNode;
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    insertAtEnd(1);
+    insertAtEnd(2);
+    insertAtEnd(3);
+    insertAtEnd(4);
+    insertAtEnd(5);
+    printf("List before deletion:\n");
+    printList();
+    deleteAtEnd();
+    printf("List after deletion:\n");
+    printList();
+    return 0;
+}
