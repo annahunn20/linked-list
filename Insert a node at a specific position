@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* head = NULL; // Assuming head is defined globally
+void insertAtPos() {
+    int pos, i, nodes = 0;
+    struct Node *newNode, *prev;
+    struct Node *curr = head;
+    // Count the number of nodes in the list
+    while (curr != NULL) {
+        nodes++;
+        curr = curr->next;
+    }
+    printf("Enter the position: ");
+    scanf("%d", &pos);
+    // Check for valid position
+    if (pos < 1 || pos > nodes + 1) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    // Create a new node
+    newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    printf("Enter the new data: ");
+    scanf("%d", &newNode->data);
+    newNode->next = NULL;
+    // Insert at the beginning if position is 1
+    if (pos == 1) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+    // Traverse to the position just before the insertion point
+    curr = head;
+    for (i = 1; i < pos; i++) {
+        prev = curr;
+        curr = curr->next;
+    }
+    // Insert the new node
+    newNode->next = prev->next;
+    prev->next = newNode;
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    insertAtPos();
+    insertAtPos();
+    insertAtPos();
+    printf("List after insertion:\n");
+    printList();
+    return 0;}
