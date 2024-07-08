@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* head = NULL; // Assuming head is defined globally
+void insertAfter(int val) {
+    struct Node* prev = head;
+    struct Node* newNode;
+    // Traverse to find the node with the specified value
+    while (prev != NULL && prev->data != val) {
+        prev = prev->next;
+    }
+    if (prev == NULL) {
+        printf("Value %d is not in the list\n", val);
+    } else {
+        newNode = (struct Node*)malloc(sizeof(struct Node));
+        if (newNode == NULL) {
+            printf("Memory allocation failed\n");
+            return;
+        }
+        printf("Enter the new data: ");
+        scanf("%d", &newNode->data);
+        newNode->next = prev->next;
+        prev->next = newNode;
+    }
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    // Example usage of insertAfter
+    struct Node* newNode1 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* newNode2 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* newNode3 = (struct Node*)malloc(sizeof(struct Node));
+    
+    head = newNode1;
+    newNode1->data = 1;
+    newNode1->next = newNode2;
+    
+    newNode2->data = 2;
+    newNode2->next = newNode3;
+    
+    newNode3->data = 3;
+    newNode3->next = NULL;
+    printf("List before insertion:\n");
+    printList();
+    insertAfter(2);
+    printf("List after insertion:\n");
+    printList();
+    return 0;
+}
