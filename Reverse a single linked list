@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* head = NULL; // Assuming head is defined globally
+void reverse() {
+    struct Node* prev = NULL;
+    struct Node* curr = head;
+    struct Node* next = NULL;
+    if (head == NULL) {
+        printf("Empty list\n");
+        return;
+    }
+    while (curr != NULL) {
+        // Store the next node
+        next = curr->next;
+        // Reverse the current node's pointer
+        curr->next = prev;
+        // Move the pointers one position ahead
+        prev = curr;
+        curr = next;
+    }
+    // Update the head to be the last non-null node
+    head = prev;
+}
+void insertAtEnd(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    struct Node* last = head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = newNode;
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    insertAtEnd(1);
+    insertAtEnd(2);
+    insertAtEnd(3);
+    printf("List before reversal:\n");
+    printList();
+    reverse();
+    printf("List after reversal:\n");
+    printList();
+    return 0;}
