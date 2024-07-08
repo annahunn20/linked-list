@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* head = NULL; // Assuming head is defined globally
+void insertAtEnd() {
+    struct Node* last;
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    printf("Enter the new data: ");
+    scanf("%d", &newNode->data);
+    newNode->next = NULL;
+    if (head == NULL) {
+        head = newNode; // If the list is empty, make the new node the head
+        return;
+    }
+    last = head;
+    while (last->next != NULL) {
+        last = last->next; // Traverse to the last node
+    }
+    last->next = newNode; // Attach the new node at the end of the list
+    
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    insertAtEnd();
+    insertAtEnd();
+    insertAtEnd();
+    printf("List after insertions:\n");
+    printList();
+    return 0;}
