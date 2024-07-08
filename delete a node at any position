@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* head = NULL; // Assuming head is defined globally
+void deleteAtAnyPosition(int key) {
+    struct Node* temp = head;
+    struct Node* prev = NULL;
+    if (temp == NULL) {
+        printf("Empty list\n");
+        return;
+    }
+    // If the node to be deleted is the head node
+    if (temp != NULL && temp->data == key) {
+        printf("Value of the deleted node=%d\n", temp->data);
+        head = temp->next;
+        free(temp);
+        return;
+    }
+    // Traverse the list to find the node with the given key
+    while (temp != NULL && temp->data != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+    // If the node with the given key is not found
+    if (temp == NULL) {
+        printf("Searched value doesn't exist in the list\n");
+        return;
+    }
+    // Node with the key is found
+    printf("Value of the deleted node=%d\n", temp->data);
+    prev->next = temp->next;
+    free(temp);
+}
+void insertAtEnd(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    struct Node* last = head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = newNode;
+}
+void printList() {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    insertAtEnd(1);
+    insertAtEnd(2);
+    insertAtEnd(3);
+    insertAtEnd(4);
+    insertAtEnd(5);
+    printf("List before deletion:\n");
+    printList();
+    deleteAtAnyPosition(3);
+    printf("List after deletion:\n");
+    printList();
+    return 0;
+}
