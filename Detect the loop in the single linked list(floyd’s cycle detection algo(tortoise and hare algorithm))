@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* head = NULL; // Assuming head is defined globally
+int detectLoop() {
+    struct Node *slowp = head, *fastp = head;
+    if (head == NULL || head->next == NULL) {
+        printf("Empty list or list contains only one node\n");
+        return 0;
+    }
+    while (slowp && fastp && fastp->next) {
+        slowp = slowp->next;
+        fastp = fastp->next->next;
+        if (slowp == fastp) {
+            return 1; // Loop detected
+        }
+    }
+    return 0; // No loop found
+}
+void insertAtEnd(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    struct Node* last = head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = newNode;
+}
+void createLoop(int pos) {
+    struct Node* temp = head;
+    struct Node* loopNode = NULL;
+    int count = 1;
+    // Traverse to the position to create the loop
+    while (temp->next != NULL) {
+        if (count == pos) {
+            loopNode = temp;
+        }
+        temp = temp->next;
+        count++;
+    }
+    // Create the loop
+    temp->next = loopNode;
+}
+int main() {
+    insertAtEnd(1);
+    insertAtEnd(2);
+    insertAtEnd(3);
+    insertAtEnd(4);
+    insertAtEnd(5);
+    // Creating a loop at position 2 (1-indexed)
+    createLoop(2);
+    // Detecting the loop
+    if (detectLoop()) {
+        printf("Loop detected in the linked list\n");
+    } else {
+        printf("No loop detected in the linked list\n");
+    }
+    return 0;
+}
